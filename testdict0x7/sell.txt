@@ -1,0 +1,17 @@
+Selling 10015.000000 of WIN-USDT
+Balance insufficient!
+Selling 116.800003 of HIENS3-USDT
+Order size increment invalid.
+Selling 913.200012 of BIDP-USDT
+Order size increment invalid.
+Selling 0.500000 of IMX-USDT
+
+Selling 150.100006 of SWFTC-USDT
+Order size increment invalid.
+Selling 116.800003 of HIENS3-USDT
+Order size increment invalid.
+Selling 913.200012 of BIDP-USDT
+Order size increment invalid.
+Selling 0.500000 of IMX-USDT
+Balance insufficient!
+Selling 150.100006 of SWFTC-USDT

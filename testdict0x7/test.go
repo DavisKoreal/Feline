@@ -19,7 +19,10 @@ import (
 	"github.com/Kucoin/kucoin-go-sdk"
 
 	"log"
+
 	"os"
+	// "net/http"
+	// "strings"
 	//"github.com/rs/zerolog/log"
 	//"github.com/go-gota/gota/dataframe"
 	//"github.com/go-gota/gota/series"
@@ -112,18 +115,18 @@ var tradingisallowed = false
 var printunreasonables = false
 
 // var tradingdollars string = "1"
-var tradedollarsfloat float64 = 3
+var tradedollarsfloat float64 = 1
 var target_percentage float64 = 30
 var connection_websocket = false
 
-const Adress = "wss://ws-api.kucoin.com/?token=2neAiuYvAU61ZDXANAGAsiL4-iAExhsBXZxftpOeh_55i3Ysy2q2LEsEWU64mdzUOPusi34M_wGoSf7iNyEWJ6SmmLECbdD7Zq7tUZ-v_3ENEqfKkkRNEtiYB9J6i9GjsxUuhPw3BlrzazF6ghq4L1CMa2R6u1e00Ll2jdp-WlY=.2K5wGeRPi1Xyg_9nryvXog==&[connectId=Dave2024]"
+var Adress string = "wss://ws-api.kucoin.com/?token=2neAiuYvAU61ZDXANAGAsiL4-iAExhsBXZxftpOeh_55i3Ysy2q2LEsEWU64mdzUOPusi34M_wGoSf7iNyEWJ1pHBCi_DYtWzyUy2oXl06XtvPiaVhuJ29iYB9J6i9GjsxUuhPw3BlrzazF6ghq4L3zxm0ToCSIdAD3cpGR2_eg=.C0a843NFzN_t-i0jC5q8Dw==&[connectId=Dave2024]"
 
 // var number_of_top_to_buy int = 5
-var tradinghour int = 17
-var tradingminute int = 00
+var tradinghour int = 16
+var tradingminute int = 59
 var tradingsecond int = 00
-var filter_price_change float64 = 10
-var negativepercentage float64 = -9
+var filter_price_change float64 = 3
+var negativepercentage float64 = -10
 var buytrials = 0
 var dollarsused float64 = 0.0
 var maxnumberoftrades int = 5
@@ -190,6 +193,7 @@ func buy(coin_to_buy string) {
 		fmt.Println("Failed to write to file:", errs) //print the failed message
 		return
 	}
+	currenttime := time.Now()
 
 	rsp, err := s.CreateOrder(p)
 	if err != nil {
@@ -197,7 +201,21 @@ func buy(coin_to_buy string) {
 		fmt.Println("The coin ", coin_to_buy, " has not been bought")
 		return
 	}
-	_, errs = file.WriteString(rsp.Message + "\n")
+	for {
+		if len(rsp.Message) > 1 {
+			rsp, err = s.CreateOrder(p)
+			if err != nil {
+				fmt.Println(err)
+				fmt.Println("The coin ", coin_to_buy, " has not been bought")
+				return
+			}
+		}
+		if len(rsp.Message) < 1 {
+			break
+		}
+	}
+
+	_, errs = file.WriteString(rsp.Message + "\n" + currenttime.String() + "\n")
 	if errs != nil {
 		fmt.Println("Failed to write to file:", errs) //print the failed message
 		return
@@ -253,6 +271,7 @@ func track_running_trades(coin_to_track string, currentprice float64) {
 		}
 		if percentgain < negativepercentage {
 			sell(coin_to_track, strconv.FormatFloat(float64(purchase_map[coin_to_track].number_bought), 'f', 6, 32))
+
 		}
 		if len(tradestracking) >= maxnumberoftrades {
 			closealltrades()
@@ -305,6 +324,17 @@ func update_trading_is_allowed() {
 	}
 }
 
+// func get_the_token() string {
+// 	// Post data to url
+// 	var url string = "https://api.kucoin.com/api/v1/bullet-public"
+// 	resp, err := http.Post(url, "application/json", nil)
+// 	if err != nil {
+// 		fmt.Println("Error posting to url: ", err)
+// 	}
+// 	res := (strings.Split((strings.Split((resp.Header.Values("Set-Cookie")[2]), ";")[0]), "ken="))[1]
+// 	return res
+// }
+
 var records_seen int = 0
 
 //var nrow row =
@@ -324,9 +354,11 @@ func main() {
 
 	_, message, err := c.Read(context.Background())
 	fmt.Println("The type of message is:	", reflect.TypeOf(message))
+
 	if err != nil {
 		fmt.Println(err)
-		return
+		// Adress = "wss://ws-api.kucoin.com/?token=" + get_the_token() + "&[connectId=Dave2024]"
+		// main()
 	}
 	//fmt.Println("The message is: ", message)
 	fmt.Println("Message: ", message)

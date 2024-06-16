@@ -166,3 +166,16 @@ Buying 6.7 of ROOT-USDT
 The quantity is below the minimum requirement.
 Buying 242 of MTV-USDT
 
+Buying 150.1 of SWFTC-USDT
+Buying 10015 of WIN-USDT
+Buying 116.8 of HIENS3-USDT
+Buying 913.2 of BIDP-USDT
+Buying 0.5 of IMX-USDT
+
+
+
+
+
+Buying 0.9 of MTRG-USDT
+
+2024-06-16 19:00:31.916745625 +0300 EAT m=+6.339372015
