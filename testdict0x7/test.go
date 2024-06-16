@@ -115,7 +115,7 @@ var tradingisallowed = false
 var printunreasonables = false
 
 // var tradingdollars string = "1"
-var tradedollarsfloat float64 = 1
+var tradedollarsfloat float64 = 3
 var target_percentage float64 = 30
 var connection_websocket = false
 
@@ -125,8 +125,8 @@ var Adress string = "wss://ws-api.kucoin.com/?token=2neAiuYvAU61ZDXANAGAsiL4-iAE
 var tradinghour int = 16
 var tradingminute int = 59
 var tradingsecond int = 00
-var filter_price_change float64 = 3
-var negativepercentage float64 = -10
+var filter_price_change float64 = 10
+var negativepercentage float64 = -20
 var buytrials = 0
 var dollarsused float64 = 0.0
 var maxnumberoftrades int = 5
